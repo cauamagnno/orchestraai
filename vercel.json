@@ -3,6 +3,7 @@
     { "source": "/codigolongevidade", "destination": "/codigolongevidade/", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/codigolongevidade/", "destination": "https://ferramentacodelongevidade.vercel.app/" },
     { "source": "/codigolongevidade/:path*", "destination": "https://ferramentacodelongevidade.vercel.app/:path*" },
     { "source": "/", "destination": "/index2.html" }
   ]
