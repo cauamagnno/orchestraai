@@ -224,6 +224,304 @@
         [data-reveal="scale"] { transform: scale(0.92); }
         [data-reveal="scale"].revealed { transform: scale(1); }
 
+        /* ── Section Mini-CTA ────────────────────────── */
+        .section-cta {
+            margin-top: 3.5rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.1rem;
+            text-align: center;
+        }
+        .section-cta-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.05rem;
+            color: rgba(255,255,255,0.55);
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        .btn-diag {
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+
+        /* ── Diagnostic Modal ─────────────────────────── */
+        .diag-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .diag-modal.open { opacity: 1; pointer-events: all; }
+        .diag-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(5,5,6,0.88);
+            backdrop-filter: blur(14px);
+            cursor: pointer;
+        }
+        .diag-panel {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background: rgb(12,12,14);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.7), 0 0 80px rgba(255,69,0,0.07);
+            transform: translateY(28px) scale(0.97);
+            transition: transform 0.4s cubic-bezier(.22,1,.36,1);
+            display: flex;
+            flex-direction: column;
+        }
+        .diag-modal.open .diag-panel { transform: translateY(0) scale(1); }
+        /* Header */
+        .diag-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            padding: 1.25rem 1.5rem 1rem;
+            background: rgb(12,12,14);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .diag-header-left { flex: 1; }
+        .diag-step-counter {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 0.5rem;
+        }
+        .diag-progress {
+            height: 3px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .diag-progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #ff4500, #ff6633);
+            border-radius: 100px;
+            transition: width 0.45s cubic-bezier(.22,1,.36,1);
+            box-shadow: 0 0 10px rgba(255,69,0,0.5);
+        }
+        .diag-close {
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: rgba(255,255,255,0.5);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+        .diag-close:hover { background: rgba(255,69,0,0.12); border-color: rgba(255,69,0,0.4); color: #fff; }
+        /* Body */
+        .diag-body { padding: 2rem 2rem 1rem; flex: 1; }
+        /* Step animation */
+        @keyframes diagStepIn {
+            from { opacity: 0; transform: translateX(24px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes diagStepInLeft {
+            from { opacity: 0; transform: translateX(-24px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .diag-step { display: none; }
+        .diag-step.active { display: block; animation: diagStepIn 0.32s cubic-bezier(.22,1,.36,1) forwards; }
+        .diag-step.active.from-back { animation: diagStepInLeft 0.32s cubic-bezier(.22,1,.36,1) forwards; }
+        /* Step tag */
+        .diag-step-tag {
+            display: inline-block;
+            font-size: 10px; font-weight: 800;
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: #ff4500; margin-bottom: 0.6rem;
+        }
+        .diag-step-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.45rem; font-weight: 700;
+            color: #fff; margin: 0 0 1.75rem;
+            line-height: 1.3;
+        }
+        /* Fields */
+        .diag-field { margin-bottom: 1.2rem; }
+        .diag-field > label {
+            display: block;
+            font-size: 0.83rem; font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.55rem;
+        }
+        .diag-hint { font-weight: 400; color: rgba(255,255,255,0.35); font-size: 0.78rem; }
+        .diag-field input[type="text"],
+        .diag-field input[type="tel"],
+        .diag-field input[type="url"],
+        .diag-field textarea {
+            width: 100%; box-sizing: border-box;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 0.875rem 1rem;
+            font-size: 0.94rem;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .diag-field input:focus, .diag-field textarea:focus {
+            border-color: rgba(255,69,0,0.5);
+            box-shadow: 0 0 0 3px rgba(255,69,0,0.1);
+        }
+        .diag-field input::placeholder, .diag-field textarea::placeholder { color: rgba(255,255,255,0.18); }
+        .diag-field textarea { resize: vertical; min-height: 120px; }
+        .diag-field.has-error input, .diag-field.has-error textarea { border-color: rgba(255,80,80,0.5); }
+        .diag-field-error { font-size: 0.77rem; color: #ff7070; margin-top: 0.35rem; }
+        /* Radio */
+        .diag-radio-group { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+        .diag-radio-group--col { flex-direction: column; gap: 0.45rem; }
+        .diag-radio { display: contents; }
+        .diag-radio input[type="radio"] { display: none; }
+        .diag-radio span {
+            display: flex; align-items: center;
+            padding: 0.6rem 1.1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.65);
+            background: rgba(255,255,255,0.03);
+            transition: all 0.2s; cursor: pointer;
+        }
+        .diag-radio-group--col .diag-radio span {
+            border-radius: 10px; padding: 0.75rem 1rem;
+        }
+        .diag-radio input:checked + span {
+            border-color: #ff4500;
+            background: rgba(255,69,0,0.12);
+            color: #fff;
+            box-shadow: 0 0 0 1px rgba(255,69,0,0.25);
+        }
+        .diag-radio span:hover { border-color: rgba(255,69,0,0.35); color: #fff; }
+        /* Checkbox */
+        .diag-check-group { display: flex; flex-direction: column; gap: 0.45rem; }
+        .diag-check { display: contents; }
+        .diag-check input[type="checkbox"] { display: none; }
+        .diag-check span {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.7rem 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.65);
+            background: rgba(255,255,255,0.03);
+            transition: all 0.2s; cursor: pointer;
+        }
+        .diag-check span::before {
+            content: '';
+            width: 16px; height: 16px; flex-shrink: 0;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.2s;
+        }
+        .diag-check input:checked + span {
+            border-color: #ff4500;
+            background: rgba(255,69,0,0.1);
+            color: #fff;
+        }
+        .diag-check input:checked + span::before {
+            background: #ff4500; border-color: #ff4500;
+        }
+        .diag-check span:hover { border-color: rgba(255,69,0,0.35); color: #fff; }
+        /* Footer */
+        .diag-footer {
+            position: sticky; bottom: 0;
+            padding: 1rem 2rem 1.5rem;
+            background: rgb(12,12,14);
+            display: flex; gap: 0.75rem; align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .diag-btn-back {
+            padding: 0.75rem 1.25rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px; background: transparent;
+            color: rgba(255,255,255,0.45);
+            font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .diag-btn-back:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+        .diag-btn-next {
+            flex: 1; padding: 0.9rem 1.5rem;
+            background: #ff4500; color: #fff; border: none;
+            border-radius: 10px; font-size: 0.9rem; font-weight: 700;
+            letter-spacing: 0.02em; cursor: pointer;
+            transition: all 0.25s;
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .diag-btn-next:hover { background: #ff6633; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,69,0,0.3); }
+        /* Success */
+        .diag-success { text-align: center; padding: 1rem 0 0.5rem; }
+        .diag-success-icon { font-size: 3.5rem; margin-bottom: 0.75rem; display: block; }
+        .diag-success-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.35rem 1rem;
+            border: 1px solid rgba(255,69,0,0.4);
+            border-radius: 100px;
+            background: rgba(255,69,0,0.08);
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+            color: #ff4500; margin-bottom: 1.25rem;
+        }
+        .diag-success-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem; font-weight: 700;
+            color: #fff; margin: 0 0 1rem; line-height: 1.25;
+        }
+        .diag-success-text {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.95rem; line-height: 1.7;
+            max-width: 380px; margin: 0 auto 1.75rem;
+        }
+        .diag-calendar-btn {
+            display: inline-flex; align-items: center; gap: 0.75rem;
+            padding: 1rem 2.25rem;
+            background: #ff4500; color: #fff;
+            border-radius: 12px; font-weight: 700; font-size: 0.9rem;
+            letter-spacing: 0.02em; text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 0 30px rgba(255,69,0,0.3);
+        }
+        .diag-calendar-btn:hover { background: #ff6633; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,69,0,0.4); }
+        .diag-success-footer {
+            margin-top: 1.5rem;
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.25);
+        }
+        /* Mobile modal */
+        @media (max-width: 767px) {
+            .diag-modal { padding: 0; align-items: flex-end; }
+            .diag-panel { max-height: 92vh; border-radius: 20px 20px 0 0; max-width: 100%; }
+        }
+
         /* ── Card hover lift ──────────────────────────── */
         .card-lift {
             transition: transform 0.35s cubic-bezier(.22,1,.36,1), box-shadow 0.35s ease, border-color 0.35s ease;
@@ -591,7 +889,7 @@
                     <a class="nav-link" href="#process">Método</a>
                     <a class="nav-link" href="#dados">Dados</a>
                 </div>
-                <a class="btn-primary hidden sm:inline-flex" href="#contact">Agendar Diagnóstico</a>
+                <button class="btn-primary btn-diag hidden sm:inline-flex">Agendar Diagnóstico</button>
                 <!-- Hamburger (mobile only) -->
                 <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
                     <span></span><span></span><span></span>
@@ -605,7 +903,7 @@
             <a class="nav-link" href="#solucoes">Solução</a>
             <a class="nav-link" href="#process">Método</a>
             <a class="nav-link" href="#dados">Dados</a>
-            <a class="mobile-cta" href="#contact">Agendar Diagnóstico</a>
+            <button class="mobile-cta btn-diag">Agendar Diagnóstico</button>
         </div>
 
         <!-- Section 1: Hero -->
@@ -627,9 +925,9 @@
                 </p>
 
                 <div id="hero-cta" style="display: flex; flex-wrap: wrap; gap: 1.25rem; justify-content: center; margin-top: 3.5rem; opacity: 0; transform: translateY(30px);">
-                    <a class="btn-primary btn-primary--lg" href="#contact" style="box-shadow: 0 10px 25px rgba(255,69,0,0.25);">
+                    <button class="btn-primary btn-primary--lg btn-diag" style="box-shadow: 0 10px 25px rgba(255,69,0,0.25);">
                         Agendar Diagnóstico
-                    </a>
+                    </button>
                     <a class="btn-ghost" href="#solucoes">
                         Conhecer Soluções
                     </a>
@@ -710,6 +1008,15 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+
+                <!-- Mini CTA -->
+                <div class="section-cta">
+                    <p class="section-cta-text">Isso se aplica à sua empresa? Vamos mapear juntos.</p>
+                    <button class="btn-primary btn-diag" style="padding:.7rem 1.75rem;font-size:.78rem;">
+                        Quero meu Diagnóstico Gratuito
+                        <iconify-icon icon="solar:arrow-right-linear" width="15"></iconify-icon>
+                    </button>
                 </div>
             </div>
         </section>
@@ -794,6 +1101,15 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+
+                <!-- Mini CTA -->
+                <div class="section-cta">
+                    <p class="section-cta-text">Qual dessas frentes faz mais sentido para a sua empresa?</p>
+                    <button class="btn-primary btn-diag" style="padding:.7rem 1.75rem;font-size:.78rem;">
+                        Descobrir em 5 minutos
+                        <iconify-icon icon="solar:arrow-right-linear" width="15"></iconify-icon>
+                    </button>
                 </div>
             </div>
         </section>
@@ -927,6 +1243,15 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Mini CTA -->
+                <div class="section-cta">
+                    <p class="section-cta-text">Os dados falam. E a sua empresa já está respondendo?</p>
+                    <button class="btn-primary btn-diag" style="padding:.7rem 1.75rem;font-size:.78rem;">
+                        Agendar Diagnóstico Gratuito
+                        <iconify-icon icon="solar:arrow-right-linear" width="15"></iconify-icon>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -1053,6 +1378,15 @@
                             Foco em resultado financeiro
                         </div>
                     </div>
+                </div>
+
+                <!-- Mini CTA -->
+                <div class="section-cta">
+                    <p class="section-cta-text">De que lado da mesa sua empresa está hoje?</p>
+                    <button class="btn-primary btn-diag" style="padding:.7rem 1.75rem;font-size:.78rem;">
+                        Quero operar de forma inteligente
+                        <iconify-icon icon="solar:arrow-right-linear" width="15"></iconify-icon>
+                    </button>
                 </div>
             </div>
         </section>
@@ -1191,6 +1525,14 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Mini CTA inside founder -->
+                    <div class="section-cta" style="margin-top:2.5rem;">
+                        <p class="section-cta-text">Vamos conversar sobre a sua operação?</p>
+                        <button class="btn-primary btn-diag" style="padding:.7rem 1.75rem;font-size:.78rem;">
+                            Agendar conversa gratuita
+                            <iconify-icon icon="solar:arrow-right-linear" width="15"></iconify-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1212,10 +1554,10 @@
                         Vamos resolver isso.
                     </p>
 
-                    <a class="btn-primary btn-primary--xl" href="https://calendly.com/cauamagno42/30min" target="_blank" rel="noopener">
-                        Agendar Diagnóstico
+                    <button class="btn-primary btn-primary--xl btn-diag">
+                        Agendar Diagnóstico Gratuito
                         <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon>
-                    </a>
+                    </button>
                 </div>
 
                 <!-- Posicionamento Final -->
@@ -1230,6 +1572,7 @@
 
         <!-- Footer -->
         <footer style="padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.1); background: #050506;">
+
             <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div class="text-lg tracking-tighter" style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; letter-spacing: -0.05em; display: flex; align-items: center; gap: 0.5rem; color: #ffffff;">
                     ORCHESTRA.AI
@@ -1240,7 +1583,159 @@
             </div>
         </footer>
 
+    </div><!-- /scroll-container -->
+
+    <!-- ══ DIAGNOSTIC MODAL ═══════════════════════════════════ -->
+    <div id="diag-modal" class="diag-modal" role="dialog" aria-modal="true" aria-labelledby="diag-title">
+        <div class="diag-backdrop" id="diag-backdrop"></div>
+        <div class="diag-panel">
+            <!-- Header -->
+            <div class="diag-header">
+                <div class="diag-header-left">
+                    <div class="diag-step-counter" id="diag-counter">Etapa 1 de 6</div>
+                    <div class="diag-progress">
+                        <div class="diag-progress-fill" id="diag-bar" style="width:0%"></div>
+                    </div>
+                </div>
+                <button class="diag-close" id="diag-close" aria-label="Fechar">✕</button>
+            </div>
+
+            <!-- Body / Steps -->
+            <div class="diag-body">
+
+                <!-- ── Step 1: Sobre você ── -->
+                <div class="diag-step active" data-step="0">
+                    <span class="diag-step-tag">Sobre você</span>
+                    <h3 class="diag-step-title" id="diag-title">Vamos começar com o básico</h3>
+                    <div class="diag-field">
+                        <label for="f-nome">Seu nome completo <span style="color:#ff4500">*</span></label>
+                        <input type="text" id="f-nome" name="nome" placeholder="Ex: João da Silva" autocomplete="name" required />
+                    </div>
+                    <div class="diag-field">
+                        <label for="f-empresa">Nome da sua empresa <span style="color:#ff4500">*</span></label>
+                        <input type="text" id="f-empresa" name="empresa" placeholder="Ex: Empresa XPTO" required />
+                    </div>
+                </div>
+
+                <!-- ── Step 2: Contato ── -->
+                <div class="diag-step" data-step="1">
+                    <span class="diag-step-tag">Contato</span>
+                    <h3 class="diag-step-title">Como podemos te encontrar?</h3>
+                    <div class="diag-field">
+                        <label for="f-site">Site da empresa <span style="color:rgba(255,255,255,0.3); font-weight:400">(opcional)</span></label>
+                        <input type="url" id="f-site" name="site" placeholder="www.suaempresa.com.br" autocomplete="url" />
+                    </div>
+                    <div class="diag-field">
+                        <label for="f-whatsapp">WhatsApp / Telefone <span style="color:#ff4500">*</span></label>
+                        <input type="tel" id="f-whatsapp" name="whatsapp" placeholder="(11) 99999-9999" autocomplete="tel" required />
+                    </div>
+                </div>
+
+                <!-- ── Step 3: Sua empresa ── -->
+                <div class="diag-step" data-step="2">
+                    <span class="diag-step-tag">Sua empresa</span>
+                    <h3 class="diag-step-title">Me conta mais sobre o seu negócio</h3>
+                    <div class="diag-field">
+                        <label for="f-segmento">Segmento da empresa <span style="color:#ff4500">*</span></label>
+                        <input type="text" id="f-segmento" name="segmento" placeholder="Ex: imobiliário, saúde, educação, varejo..." required />
+                    </div>
+                    <div class="diag-field">
+                        <label>Quantas pessoas trabalham na sua empresa?</label>
+                        <div class="diag-radio-group">
+                            <label class="diag-radio"><input type="radio" name="equipe" value="só eu" /><span>Só eu</span></label>
+                            <label class="diag-radio"><input type="radio" name="equipe" value="2-10" /><span>2 a 10</span></label>
+                            <label class="diag-radio"><input type="radio" name="equipe" value="11-50" /><span>11 a 50</span></label>
+                            <label class="diag-radio"><input type="radio" name="equipe" value="+50" /><span>Mais de 50</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Step 4: Tecnologia ── -->
+                <div class="diag-step" data-step="3">
+                    <span class="diag-step-tag">Tecnologia atual</span>
+                    <h3 class="diag-step-title">Qual o nível de tecnologia hoje?</h3>
+                    <div class="diag-field">
+                        <label>Sua empresa já usa IA no dia a dia?</label>
+                        <div class="diag-radio-group diag-radio-group--col">
+                            <label class="diag-radio"><input type="radio" name="ia" value="sim" /><span>Sim, já temos algo rodando</span></label>
+                            <label class="diag-radio"><input type="radio" name="ia" value="testando" /><span>Estamos testando algumas ferramentas</span></label>
+                            <label class="diag-radio"><input type="radio" name="ia" value="nao" /><span>Não, ainda não implementamos nada</span></label>
+                        </div>
+                    </div>
+                    <div class="diag-field">
+                        <label>Quais áreas já têm algum sistema? <span class="diag-hint">(pode marcar mais de uma)</span></label>
+                        <div class="diag-check-group">
+                            <label class="diag-check"><input type="checkbox" name="sistemas" value="atendimento" /><span>Atendimento ao cliente (WhatsApp, chat, CRM)</span></label>
+                            <label class="diag-check"><input type="checkbox" name="sistemas" value="dashboards" /><span>Dashboards e relatórios</span></label>
+                            <label class="diag-check"><input type="checkbox" name="sistemas" value="vendas" /><span>Gestão de vendas ou funil comercial</span></label>
+                            <label class="diag-check"><input type="checkbox" name="sistemas" value="automacao" /><span>Automação de processos internos</span></label>
+                            <label class="diag-check"><input type="checkbox" name="sistemas" value="nenhum" /><span>Nenhuma das anteriores</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Step 5: Situação ── -->
+                <div class="diag-step" data-step="4">
+                    <span class="diag-step-tag">Sua situação</span>
+                    <h3 class="diag-step-title">Como está a operação hoje?</h3>
+                    <div class="diag-field">
+                        <label>Como você se sente com as ferramentas que usa?</label>
+                        <div class="diag-radio-group diag-radio-group--col">
+                            <label class="diag-radio"><input type="radio" name="satisfacao" value="satisfeito" /><span>Satisfeito — funcionam bem para o meu momento</span></label>
+                            <label class="diag-radio"><input type="radio" name="satisfacao" value="parcial" /><span>Parcialmente satisfeito — mas perdemos eficiência</span></label>
+                            <label class="diag-radio"><input type="radio" name="satisfacao" value="insatisfeito" /><span>Insatisfeito — precisamos de algo mais profissional</span></label>
+                            <label class="diag-radio"><input type="radio" name="satisfacao" value="nao-usa" /><span>Não usamos ferramentas ainda</span></label>
+                        </div>
+                    </div>
+                    <div class="diag-field">
+                        <label>O que mais te motivou a buscar IA agora?</label>
+                        <div class="diag-radio-group diag-radio-group--col">
+                            <label class="diag-radio"><input type="radio" name="motivacao" value="custos" /><span>Reduzir custos operacionais</span></label>
+                            <label class="diag-radio"><input type="radio" name="motivacao" value="escalar" /><span>Escalar o atendimento sem contratar mais pessoas</span></label>
+                            <label class="diag-radio"><input type="radio" name="motivacao" value="profissionalizar" /><span>Profissionalizar os processos internos</span></label>
+                            <label class="diag-radio"><input type="radio" name="motivacao" value="concorrencia" /><span>Não perder para a concorrência</span></label>
+                            <label class="diag-radio"><input type="radio" name="motivacao" value="outro" /><span>Outro</span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── Step 6: Desafio ── -->
+                <div class="diag-step" data-step="5">
+                    <span class="diag-step-tag">Desafio principal</span>
+                    <h3 class="diag-step-title">Qual é o seu maior desafio hoje?</h3>
+                    <div class="diag-field">
+                        <label for="f-desafio">O que você acredita que a IA poderia resolver na sua empresa?</label>
+                        <textarea id="f-desafio" name="desafio" rows="5" placeholder="Ex: Nosso processo de atendimento é totalmente manual, perdemos leads porque não respondemos rápido o suficiente..."></textarea>
+                    </div>
+                </div>
+
+                <!-- ── Sucesso ── -->
+                <div class="diag-step diag-success" data-step="6">
+                    <span class="diag-success-icon">🎯</span>
+                    <div class="diag-success-badge">
+                        <iconify-icon icon="solar:gift-bold-duotone" width="14"></iconify-icon>
+                        Diagnóstico gratuito desbloqueado
+                    </div>
+                    <h3 class="diag-success-title">Você ganhou uma sessão de<br/><span style="color:#ff4500">Diagnóstico Gratuito!</span></h3>
+                    <p class="diag-success-text">Ótimo, <span id="diag-success-name" style="color:#fff;font-weight:600"></span>! Com base nas suas respostas, vamos preparar uma análise personalizada para a sua empresa.</p>
+                    <p class="diag-success-text" style="margin-bottom:2rem">Clique abaixo para escolher o melhor horário para conversar com Cauã:</p>
+                    <a href="https://calendar.app.google/GkwFBpScJM8iVvhC8" target="_blank" rel="noopener" class="diag-calendar-btn">
+                        Agendar meu Diagnóstico
+                        <iconify-icon icon="solar:calendar-bold-duotone" width="20"></iconify-icon>
+                    </a>
+                    <p class="diag-success-footer">Sessão 100% gratuita · Sem compromisso · 30 minutos</p>
+                </div>
+
+            </div><!-- /diag-body -->
+
+            <!-- Footer nav -->
+            <div class="diag-footer" id="diag-footer">
+                <button class="diag-btn-back" id="diag-prev" style="display:none">← Voltar</button>
+                <button class="diag-btn-next" id="diag-next">Continuar <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon></button>
+            </div>
+        </div>
     </div>
+    <!-- ══ /DIAGNOSTIC MODAL ══════════════════════════════════ -->
 
     <!-- MAIN THREE.JS SCRIPT - COMPLETELY REDESIGNED FOR "ORCHESTRA" THEME -->
     <script>
@@ -1650,6 +2145,128 @@
                 if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
+
+        // ══ DIAGNOSTIC MODAL ══════════════════════════
+        (function() {
+            const modal    = document.getElementById('diag-modal');
+            const bar      = document.getElementById('diag-bar');
+            const counter  = document.getElementById('diag-counter');
+            const prevBtn  = document.getElementById('diag-prev');
+            const nextBtn  = document.getElementById('diag-next');
+            const footer   = document.getElementById('diag-footer');
+            const steps    = modal.querySelectorAll('.diag-step');
+            const FORM_STEPS = steps.length - 1; // last step is success
+            let current = 0;
+            let goingBack = false;
+
+            // ── Open / Close ──
+            function openModal() {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                goToStep(0, false);
+            }
+            function closeModal() {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            // ── Step navigation ──
+            function goToStep(idx, back) {
+                goingBack = back;
+                steps.forEach(s => {
+                    s.classList.remove('active', 'from-back');
+                });
+                const target = steps[idx];
+                target.classList.add('active');
+                if (back) target.classList.add('from-back');
+
+                current = idx;
+                const isSuccess = idx >= FORM_STEPS;
+
+                // Progress bar
+                const pct = isSuccess ? 100 : Math.round((idx / FORM_STEPS) * 100);
+                bar.style.width = pct + '%';
+
+                // Counter
+                counter.textContent = isSuccess
+                    ? '✓ Concluído!'
+                    : `Etapa ${idx + 1} de ${FORM_STEPS}`;
+
+                // Footer buttons
+                prevBtn.style.display = (idx === 0 || isSuccess) ? 'none' : 'flex';
+                nextBtn.style.display = isSuccess ? 'none' : 'flex';
+                footer.style.display  = isSuccess ? 'none' : 'flex';
+                if (!isSuccess) {
+                    nextBtn.innerHTML = idx === FORM_STEPS - 1
+                        ? 'Concluir <iconify-icon icon="solar:check-bold" width="16"></iconify-icon>'
+                        : 'Continuar <iconify-icon icon="solar:arrow-right-linear" width="16"></iconify-icon>';
+                }
+
+                // Show name on success
+                if (isSuccess) {
+                    const nameInput = document.getElementById('f-nome');
+                    const el = document.getElementById('diag-success-name');
+                    if (el && nameInput) el.textContent = nameInput.value.split(' ')[0];
+                }
+
+                // Scroll panel to top
+                const panel = modal.querySelector('.diag-panel');
+                if (panel) panel.scrollTop = 0;
+            }
+
+            // ── Validation ──
+            function validateStep() {
+                const step = steps[current];
+                let valid = true;
+
+                // Remove existing errors
+                step.querySelectorAll('.diag-field').forEach(f => {
+                    f.classList.remove('has-error');
+                    const err = f.querySelector('.diag-field-error');
+                    if (err) err.remove();
+                });
+
+                // Required text/tel/url/textarea
+                step.querySelectorAll('[required]').forEach(input => {
+                    if (!input.value.trim()) {
+                        const field = input.closest('.diag-field');
+                        if (field) {
+                            field.classList.add('has-error');
+                            const e = document.createElement('div');
+                            e.className = 'diag-field-error';
+                            e.textContent = 'Campo obrigatório';
+                            field.appendChild(e);
+                        }
+                        if (valid) input.focus();
+                        valid = false;
+                    }
+                });
+                return valid;
+            }
+
+            // ── Button events ──
+            nextBtn.addEventListener('click', () => {
+                if (!validateStep()) return;
+                if (current < steps.length - 1) goToStep(current + 1, false);
+            });
+            prevBtn.addEventListener('click', () => {
+                if (current > 0) goToStep(current - 1, true);
+            });
+
+            // ── Close triggers ──
+            document.getElementById('diag-close').addEventListener('click', closeModal);
+            document.getElementById('diag-backdrop').addEventListener('click', closeModal);
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+            });
+
+            // ── Wire all .btn-diag buttons globally ──
+            window.openDiag = openModal;
+            document.querySelectorAll('.btn-diag').forEach(btn => {
+                btn.addEventListener('click', openModal);
+            });
+        })();
+        // ══ /DIAGNOSTIC MODAL ═════════════════════════
 
         // ── Mobile Nav Toggle ──────────────────────────
         (function() {
