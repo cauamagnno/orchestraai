@@ -3,7 +3,24 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>ORCHESTRA.AI — Inteligência e Automação</title>
+    <title>ORCHESTRA.AI — Inteligência e Automação com IA</title>
+    <meta name="description" content="A ORCHESTRA.AI transforma empresas em operações inteligentes com IA e automação. Integramos sistemas, automatizamos processos e criamos estruturas que aumentam receita e reduzem esforço operacional." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://siteorchestra.vercel.app" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://siteorchestra.vercel.app" />
+    <meta property="og:title" content="ORCHESTRA.AI — Inteligência e Automação com IA" />
+    <meta property="og:description" content="Transformamos empresas em operações inteligentes. Integramos sistemas, automatizamos processos e aumentamos receita com IA." />
+    <meta property="og:image" content="https://siteorchestra.vercel.app/og-image.png" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ORCHESTRA.AI — Inteligência e Automação com IA" />
+    <meta name="twitter:description" content="Transformamos empresas em operações inteligentes com IA e automação." />
+    <meta name="twitter:image" content="https://siteorchestra.vercel.app/og-image.png" />
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script src="assets/resource_3fa48481346f.es"></script>
     <script src="assets/iconify-icon_e5bd14a829b8.js"></script>
     <link href="assets/css2_5e23dd8fd27f.css" rel="stylesheet"/>
@@ -87,6 +104,163 @@
         ::-webkit-scrollbar-thumb { background: rgba(255,69,0,0.7); border-radius: 3px; }
         ::selection { background: rgba(255,69,0,0.4); color: #ffffff; }
         html { scroll-behavior: smooth; }
+
+        /* ── Design Tokens ────────────────────────────── */
+        :root {
+            --c-bg:           #0a0a0b;
+            --c-bg-footer:    #050506;
+            --c-orange:       #ff4500;
+            --c-orange-h:     #ff6633;
+            --c-white:        #ffffff;
+            --c-white-85:     rgba(255,255,255,0.85);
+            --c-white-60:     rgba(255,255,255,0.6);
+            --c-border:       rgba(255,255,255,0.1);
+            --c-border-o:     rgba(255,69,0,0.5);
+            --font-display:   'Space Grotesk', sans-serif;
+            --font-body:      'Inter', sans-serif;
+            --radius-sm:      4px;
+            --radius-md:      12px;
+            --radius-lg:      20px;
+            --transition:     0.3s ease;
+        }
+
+        /* ── Nav Links ────────────────────────────────── */
+        .nav-link {
+            color: var(--c-white-85);
+            transition: color var(--transition);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+        }
+        .nav-link:hover { color: var(--c-white); }
+
+        /* ── Buttons ──────────────────────────────────── */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            background: var(--c-orange);
+            color: var(--c-white);
+            padding: 0.6rem 1.4rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+        }
+        .btn-primary:hover {
+            background: var(--c-orange-h);
+            transform: translateY(-2px);
+        }
+        .btn-primary--lg {
+            padding: 1rem 2.5rem;
+            font-size: 0.8rem;
+        }
+        .btn-primary--xl {
+            padding: 1.4rem 4rem;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            box-shadow: 0 15px 40px rgba(255,69,0,0.4);
+            color: #000;
+        }
+        .btn-primary--xl:hover { transform: scale(1.04); }
+        .btn-ghost {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.05);
+            color: var(--c-white);
+            padding: 1rem 2.5rem;
+            border: 1px solid rgba(255,255,255,0.3);
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            transition: background var(--transition), transform var(--transition);
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ── Logo images ──────────────────────────────── */
+        .logo-img { opacity: 0.6; transition: opacity var(--transition); }
+        .logo-img:hover { opacity: 1; }
+
+        /* ── Hamburger Button ─────────────────────────── */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 6px;
+            background: none;
+            border: none;
+            z-index: 60;
+            position: relative;
+        }
+        @media (max-width: 767px) { .hamburger { display: flex; } }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--c-white);
+            border-radius: 2px;
+            transition: all var(--transition);
+            transform-origin: center;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ── Mobile Nav Overlay ───────────────────────── */
+        .mobile-nav {
+            position: fixed;
+            inset: 0;
+            background: rgba(10,10,11,0.97);
+            backdrop-filter: blur(24px);
+            z-index: 55;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+        .mobile-nav.open { opacity: 1; pointer-events: all; }
+        .mobile-nav a {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--c-white-85);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: color 0.2s;
+        }
+        .mobile-nav a:hover { color: var(--c-orange); }
+        .mobile-nav .mobile-cta {
+            margin-top: 1rem;
+            background: var(--c-orange);
+            color: #000 !important;
+            padding: 0.9rem 2.5rem;
+            font-size: 0.85rem !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border-radius: var(--radius-sm);
+            transition: background var(--transition);
+        }
+        .mobile-nav .mobile-cta:hover { background: var(--c-orange-h) !important; color: #000 !important; }
     </style>
 </head>
 <body style="font-family: 'Inter', sans-serif; margin: 0; padding: 0; background: #0a0a0b; color: #ffffff; overflow-x: hidden;">
@@ -105,16 +279,27 @@
                     ORCHESTRA.AI
                 </div>
                 <div class="hidden md:flex items-center gap-8">
-                    <a class="text-[13px]" href="#problema" onmouseout="this.style.color='rgba(255,255,255,0.85)'" onmouseover="this.style.color='#ffffff'" style="color: rgba(255,255,255,0.85); transition: color 0.3s; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;">O Problema</a>
-                    <a class="text-[13px]" href="#solucoes" onmouseout="this.style.color='rgba(255,255,255,0.85)'" onmouseover="this.style.color='#ffffff'" style="color: rgba(255,255,255,0.85); transition: color 0.3s; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;">Solução</a>
-                    <a class="text-[13px]" href="#process" onmouseout="this.style.color='rgba(255,255,255,0.85)'" onmouseover="this.style.color='#ffffff'" style="color: rgba(255,255,255,0.85); transition: color 0.3s; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;">Método</a>
-                    <a class="text-[13px]" href="#dados" onmouseout="this.style.color='rgba(255,255,255,0.85)'" onmouseover="this.style.color='#ffffff'" style="color: rgba(255,255,255,0.85); transition: color 0.3s; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;">Dados</a>
+                    <a class="nav-link" href="#problema">O Problema</a>
+                    <a class="nav-link" href="#solucoes">Solução</a>
+                    <a class="nav-link" href="#process">Método</a>
+                    <a class="nav-link" href="#dados">Dados</a>
                 </div>
-                <a class="hidden sm:block" href="#contact" onmouseout="this.style.background='#ff4500'" onmouseover="this.style.background='#ff6633'" style="background: #ff4500; color: #ffffff; padding: 0.6rem 1.4rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.3s; text-decoration: none; border-radius: 2px;">
-                    Agendar Diagnóstico
-                </a>
+                <a class="btn-primary hidden sm:inline-flex" href="#contact">Agendar Diagnóstico</a>
+                <!-- Hamburger (mobile only) -->
+                <button class="hamburger" id="hamburger" aria-label="Abrir menu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </nav>
+
+        <!-- Mobile Nav Overlay -->
+        <div class="mobile-nav" id="mobile-nav" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+            <a class="nav-link" href="#problema">O Problema</a>
+            <a class="nav-link" href="#solucoes">Solução</a>
+            <a class="nav-link" href="#process">Método</a>
+            <a class="nav-link" href="#dados">Dados</a>
+            <a class="mobile-cta" href="#contact">Agendar Diagnóstico</a>
+        </div>
 
         <!-- Section 1: Hero -->
         <section id="hero" style="height: 100vh; display: flex; align-items: center; justify-content: center; position: relative;">
@@ -135,10 +320,10 @@
                 </p>
 
                 <div id="hero-cta" style="display: flex; flex-wrap: wrap; gap: 1.25rem; justify-content: center; margin-top: 3.5rem; opacity: 0; transform: translateY(30px);">
-                    <a href="#contact" onmouseout="this.style.background='#ff4500'; this.style.transform='translateY(0)'" onmouseover="this.style.background='#ff6633'; this.style.transform='translateY(-2px)'" style="background: #ff4500; color: #ffffff; padding: 1rem 2.5rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.3s; text-decoration: none; border-radius: 3px; box-shadow: 0 10px 25px rgba(255,69,0,0.25);">
+                    <a class="btn-primary btn-primary--lg" href="#contact" style="box-shadow: 0 10px 25px rgba(255,69,0,0.25);">
                         Agendar Diagnóstico
                     </a>
-                    <a href="#solucoes" onmouseout="this.style.background='rgba(255,255,255,0.05)'; this.style.transform='translateY(0)'" onmouseover="this.style.background='rgba(255,255,255,0.15)'; this.style.transform='translateY(-2px)'" style="background: rgba(255,255,255,0.05); color: #ffffff; padding: 1rem 2.5rem; border: 1px solid rgba(255,255,255,0.3); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; transition: all 0.3s; text-decoration: none; border-radius: 3px;">
+                    <a class="btn-ghost" href="#solucoes">
                         Conhecer Soluções
                     </a>
                 </div>
@@ -545,48 +730,48 @@
                 <div class="marquee-content">
                     <!-- First Set -->
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/equity-group.png" alt="Equity Group" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/equity-group.png" alt="Equity Group" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/legatoo.png" alt="Legatoo" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/legatoo.png" alt="Legatoo" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logo-catalisa-edu-preto.png" alt="Catalisa Edu" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logo-catalisa-edu-preto.png" alt="Catalisa Edu" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logotcr.png" alt="TCR" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logotcr.png" alt="TCR" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logotuto.png" alt="Tuto Digital" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logotuto.png" alt="Tuto Digital" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/sme.png" alt="SME" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/sme.png" alt="SME" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logoroyalface.png" alt="Royal Face" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logoroyalface.png" alt="Royal Face" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     
                     <!-- Second Set (for seamless loop) -->
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/equity-group.png" alt="Equity Group" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/equity-group.png" alt="Equity Group" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/legatoo.png" alt="Legatoo" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/legatoo.png" alt="Legatoo" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logo-catalisa-edu-preto.png" alt="Catalisa Edu" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logo-catalisa-edu-preto.png" alt="Catalisa Edu" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logotcr.png" alt="TCR" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logotcr.png" alt="TCR" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logotuto.png" alt="Tuto Digital" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logotuto.png" alt="Tuto Digital" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/sme.png" alt="SME" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/sme.png" alt="SME" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                     <div class="flex items-center justify-center py-6 px-10 bg-white/[0.02] border border-white/[0.05] hover:border-[#ff4500]/50 hover:bg-[#ff4500]/5 transition-all duration-300 rounded-xl shadow-lg min-w-[180px]">
-                        <img src="logos/logoroyalface.png" alt="Royal Face" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten; opacity: 0.6; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'" />
+                        <img src="logos/logoroyalface.png" alt="Royal Face" class="logo-img" style="max-height: 40px; width: auto; object-fit: contain; filter: grayscale(1) invert(1) brightness(1.5); mix-blend-mode: lighten;" />
                     </div>
                 </div>
             </div>
@@ -648,7 +833,7 @@
                         Vamos resolver isso.
                     </p>
 
-                    <a href="#" onmouseout="this.style.background='#ff4500'; this.style.transform='scale(1)'" onmouseover="this.style.background='#ff6633'; this.style.transform='scale(1.04)'" style="display: inline-flex; background: #ff4500; color: #000; padding: 1.4rem 4rem; font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s; align-items: center; justify-content: center; gap: 1rem; text-decoration: none; border-radius: 4px; box-shadow: 0 15px 40px rgba(255,69,0,0.4);">
+                    <a class="btn-primary btn-primary--xl" href="https://calendly.com/cauamagno42/30min" target="_blank" rel="noopener">
                         Agendar Diagnóstico
                         <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon>
                     </a>
@@ -968,6 +1153,35 @@
                 if (target) target.scrollIntoView({ behavior: 'smooth' });
             });
         });
+
+        // ── Mobile Nav Toggle ──────────────────────────
+        (function() {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (!hamburger || !mobileNav) return;
+
+            function toggleMenu(open) {
+                hamburger.classList.toggle('open', open);
+                mobileNav.classList.toggle('open', open);
+                hamburger.setAttribute('aria-expanded', String(open));
+                document.body.style.overflow = open ? 'hidden' : '';
+            }
+
+            hamburger.addEventListener('click', () => {
+                const isOpen = mobileNav.classList.contains('open');
+                toggleMenu(!isOpen);
+            });
+
+            // Close on any nav link click
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => toggleMenu(false));
+            });
+
+            // Close on Escape
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape' && mobileNav.classList.contains('open')) toggleMenu(false);
+            });
+        })();
     </script>
 </body>
 </html>
