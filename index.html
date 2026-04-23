@@ -242,9 +242,9 @@
         /* ── Comparativo redesign ─────────────────────── */
         .comp-wrapper {
             display: grid;
-            grid-template-columns: 1fr 56px 1fr;
+            grid-template-columns: 1fr 52px 1fr;
             align-items: stretch;
-            max-width: 920px;
+            max-width: 860px;
             margin: 0 auto;
         }
         .comp-col {
@@ -340,7 +340,7 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
-            max-width: 920px;
+            max-width: 860px;
             margin: 2rem auto 0;
             padding: 1.75rem 2rem;
             border: 1px solid rgba(255,69,0,0.15);
@@ -891,7 +891,7 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 data-grid">
-                    <div data-reveal class="card-lift p-8 bg-white/[0.04] border border-white/[0.1] hover:border-[#ff4500]/50 flex flex-col justify-between min-h-[280px] rounded-2xl shadow-lg">
+                    <div class="card-lift p-8 bg-white/[0.04] border border-white/[0.1] hover:border-[#ff4500]/50 flex flex-col justify-between min-h-[280px] rounded-2xl shadow-lg">
                         <p class="text-base leading-relaxed text-white font-medium mb-8 font-['Space_Grotesk'] text-xl">
                             IA pode aumentar a produtividade geral corporativa em até <span class="stat-num text-[#ff4500] font-bold block text-4xl mt-3 font-mono" data-target="30" data-suffix="%">30%</span>
                         </p>
@@ -1508,10 +1508,12 @@
         // ── Problema ─────────────────────────────────
         gsap.from('#problema .grid > div', {
             opacity: 0, y: 50, stagger: 0.18, duration: 0.85, ease: 'power3.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#problema', start: 'top 78%' }
         });
         gsap.from('#problema .space-y-6 > div', {
             opacity: 0, x: -24, stagger: 0.12, duration: 0.6, ease: 'power2.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#problema .space-y-6', start: 'top 80%' }
         });
 
@@ -1519,6 +1521,7 @@
         document.querySelectorAll('.gallery-item').forEach((item, i) => {
             gsap.from(item, {
                 opacity: 0, y: 50, scale: 0.95, duration: 0.75, delay: i * 0.1, ease: 'power3.out',
+                immediateRender: false,
                 scrollTrigger: { trigger: item, start: 'top 88%' }
             });
         });
@@ -1567,58 +1570,76 @@
             const suffix = el.dataset.suffix || '';
             if (isNaN(target)) return;
             const obj = { val: 0 };
-            gsap.to(obj, {
-                val: target, duration: 1.8, ease: 'power2.out',
-                scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-                onUpdate() { el.textContent = Math.round(obj.val) + suffix; }
+            ScrollTrigger.create({
+                trigger: el, start: 'top 88%', once: true,
+                onEnter() {
+                    gsap.to(obj, {
+                        val: target, duration: 1.8, ease: 'power2.out',
+                        onUpdate() { el.textContent = Math.round(obj.val) + suffix; }
+                    });
+                }
             });
         });
+        // Dados cards: set visible, animate in on scroll
+        gsap.set('#dados .data-grid > div', { opacity: 1, y: 0 });
         gsap.from('#dados .data-grid > div', {
             opacity: 0, y: 45, stagger: 0.13, duration: 0.75, ease: 'power3.out',
-            scrollTrigger: { trigger: '#dados .data-grid', start: 'top 78%' }
+            immediateRender: false,
+            scrollTrigger: { trigger: '#dados', start: 'top 70%' }
         });
 
         // ── Comparativo ───────────────────────────────
+        // Reset visibility first so nothing is hidden from page load
+        gsap.set(['#comp-antes', '#comp-depois', '#comp-divider-circle',
+                  '.comp-item--antes', '.comp-item--depois', '.comp-chip'], { clearProps: 'all' });
+
         const compTL = gsap.timeline({
             scrollTrigger: { trigger: '#comparativo .comp-wrapper', start: 'top 72%' }
         });
         compTL
-            .from('#comp-antes',           { opacity: 0, x: -60, duration: 0.85, ease: 'power3.out' })
-            .from('#comp-divider-circle',  { scale: 0, duration: 0.45, ease: 'back.out(2.5)' }, '-=0.4')
-            .from('#comp-depois',          { opacity: 0, x: 60,  duration: 0.85, ease: 'power3.out' }, '<');
+            .from('#comp-antes',          { opacity: 0, x: -60, duration: 0.85, ease: 'power3.out', immediateRender: false })
+            .from('#comp-divider-circle', { scale: 0,   duration: 0.45, ease: 'back.out(2.5)', immediateRender: false }, '-=0.4')
+            .from('#comp-depois',         { opacity: 0, x: 60,  duration: 0.85, ease: 'power3.out', immediateRender: false }, '<');
 
         gsap.from('.comp-item--antes', {
             opacity: 0, x: -18, stagger: 0.1, duration: 0.55, ease: 'power2.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#comp-antes', start: 'top 75%' }
         });
         gsap.from('.comp-item--depois', {
             opacity: 0, x: 18, stagger: 0.1, duration: 0.55, ease: 'power2.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#comp-depois', start: 'top 75%' }
         });
         gsap.from('.comp-chip', {
             opacity: 0, y: 18, scale: 0.88, stagger: 0.09, duration: 0.5, ease: 'back.out(1.4)',
-            scrollTrigger: { trigger: '#comp-model', start: 'top 86%' }
+            immediateRender: false,
+            scrollTrigger: { trigger: '#comp-model', start: 'top 90%' }
         });
 
         // ── Clientes ──────────────────────────────────
         gsap.from('#clientes .text-center > *', {
             opacity: 0, y: 28, stagger: 0.15, duration: 0.7, ease: 'power2.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#clientes', start: 'top 80%' }
         });
 
         // ── Founder ───────────────────────────────────
         gsap.from('#founder .relative.flex', {
             opacity: 0, x: -50, duration: 0.9, ease: 'power3.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#founder', start: 'top 75%' }
         });
         gsap.from('#founder .flex-col.justify-center > *', {
             opacity: 0, y: 28, stagger: 0.12, duration: 0.7, ease: 'power2.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#founder', start: 'top 75%' }
         });
 
         // ── Contact ───────────────────────────────────
         gsap.from('.contact-fade', {
             opacity: 0, y: 40, stagger: 0.2, duration: 0.9, ease: 'power3.out',
+            immediateRender: false,
             scrollTrigger: { trigger: '#contact', start: 'top 78%' }
         });
 
